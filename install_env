@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# make sure the python is 3.7
+conda create -n vloc python=3.7
+
+# common libraries
+with-proxy conda install -c anaconda ipython opencv h5py scipy scikit-image matplotlib pandas networkx numpy pillow tqdm python-lmdb tensorboard colorama
+
+# install pytorch 1.7
+with-proxy conda install pytorch torchvision torchaudio cudatoolkit=10.1 -c pytorch
+# pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+
+# install dgl
+conda install -c dglteam dgl-cuda10.1
+conda install -c conda-forge hdf5storage pytorch-lightning
+
+# install additional libraries
+pip install torchgeometry
+# with-proxy pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-$1.7.0+cu101.html
+# with-proxy pip install torch-sparse -f https://pytorch-geometric.com/whl/torch-$1.7.0+cu101.html
+# with-proxy pip install torch-cluster -f https://pytorch-geometric.com/whl/torch-$1.7.0+cu101.html
+# with-proxy pip install torch-spline-conv -f https://pytorch-geometric.com/whl/torch-$1.7.0+cu101.html
+mkdir ~/lib
+cd ~/lib
+with-proxy wget https://pytorch-geometric.com/whl/torch-1.7.0+cu101/torch_spline_conv-1.2.0-cp37-cp37m-linux_x86_64.whl 
+with-proxy wget https://pytorch-geometric.com/whl/torch-1.7.0+cu101/torch_sparse-0.6.8-cp37-cp37m-linux_x86_64.whl
+with-proxy wget https://pytorch-geometric.com/whl/torch-1.7.0+cu101/torch_scatter-2.0.5-cp37-cp37m-linux_x86_64.whl
+with-proxy wget https://pytorch-geometric.com/whl/torch-1.7.0+cu101/torch_cluster-1.5.8-cp37-cp37m-linux_x86_64.whl
+cd ~/lib
+pip install *.whl
+pip install torch-geometric
+pip install kapture
+pip install pytorch-metric-learning
